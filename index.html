@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediaLounge - Premium Streaming Service</title>
+    <style>
+        :root {
+            --primary: #0f172a;
+            --accent: #5865F2; /* Discord blurple */
+            --text: #f8fafc;
+            --warning: #ffd700;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background: var(--primary);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .nav {
+            padding: 1rem;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .hero {
+            padding: 8rem 2rem 4rem;
+            text-align: center;
+            background: linear-gradient(45deg, #0f172a, #1e293b);
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, #5865F2, #00ccff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .platforms {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .platform-card {
+            background: #1e293b;
+            border-radius: 12px;
+            padding: 2rem;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: transform 0.3s;
+        }
+
+        .platform-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .price-card {
+            background: #0f172a;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem auto;
+            max-width: 500px;
+            border: 2px solid var(--accent);
+        }
+
+        .cta-btn {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 1rem 2rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .cta-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px var(--accent);
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-item {
+            background: rgba(255,255,255,0.05);
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .warning {
+            background: rgba(255,215,0,0.1);
+            border: 1px solid var(--warning);
+            color: var(--warning);
+            padding: 1.5rem;
+            margin: 2rem;
+            border-radius: 8px;
+            max-width: 800px;
+            margin: 2rem auto;
+        }
+
+        footer {
+            background: #0f172a;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <h2>MediaLounge 🎬</h2>
+    </nav>
+
+    <section class="hero">
+        <h1>Premium Streaming Experience</h1>
+        <p>5,000+ Movies · 300+ TV Shows · 50+ Live Channels</p>
+        <a href="https://discord.gg/6u6CMQQwN8" class="cta-btn">Join Our Discord</a>
+    </section>
+
+    <div class="platforms">
+        <div class="platform-card">
+            <h3>🎁 Free Trial</h3>
+            <p>30 Days Full Access to Jellyfin</p>
+            <a href="https://discord.gg/6u6CMQQwN8" class="cta-btn">Register via Discord</a>
+            <p>Existing member? <a href="http://85.226.233.71:8096/">Login here</a></p>
+        </div>
+
+        <div class="platform-card">
+            <h3>💎 Premium Membership</h3>
+            <p>Full Access to All Platforms</p>
+            <div class="price-card">
+                <h2>$3/month</h2>
+                <ul>
+                    <li>Plex & Jellyfin Access</li>
+                    <li>4K/HDR Streaming</li>
+                    <li>Content Requests via Jellyseerr</li>
+                    <li>Priority Support</li>
+                </ul>
+                <a href="https://discord.gg/6u6CMQQwN8" class="cta-btn">Get Premium Access</a>
+            </div>
+        </div>
+    </div>
+
+    <section class="features">
+        <div class="feature-item">
+            <h3>🎥 4K Streaming</h3>
+            <p>Ultra HD Quality with HDR Support</p>
+        </div>
+        <div class="feature-item">
+            <h3>📺 Live TV</h3>
+            <p>Sports, News & Entertainment</p>
+        </div>
+        <div class="feature-item">
+            <h3>🔐 Secure Access</h3>
+            <p>2FA & VPN Support</p>
+        </div>
+    </section>
+
+    <div class="warning">
+        <h3>⚠️ Important Notice</h3>
+        <p>For best experience, we recommend using Jellyfin as primary platform. Plex service might experience occasional downtime.</p>
+    </div>
+
+    <footer>
+        <p>© 2024 MediaLounge · <a href="https://discord.gg/6u6CMQQwN8">Support & Community</a></p>
+    </footer>
+</body>
+</html>
