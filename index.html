@@ -7,7 +7,7 @@
     <style>
         :root {
             --primary: #0f172a;
-            --accent: #5865F2; /* Discord blurple */
+            --accent: #5865F2;
             --text: #f8fafc;
             --warning: #ffd700;
         }
@@ -70,15 +70,6 @@
             transform: translateY(-5px);
         }
 
-        .price-card {
-            background: #0f172a;
-            border-radius: 12px;
-            padding: 2rem;
-            margin: 2rem auto;
-            max-width: 500px;
-            border: 2px solid var(--accent);
-        }
-
         .cta-btn {
             display: inline-block;
             background: var(--accent);
@@ -96,44 +87,11 @@
             box-shadow: 0 0 15px var(--accent);
         }
 
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            padding: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .feature-item {
-            background: rgba(255,255,255,0.05);
-            padding: 1.5rem;
-            border-radius: 8px;
-            text-align: center;
-        }
-
-        .warning {
-            background: rgba(255,215,0,0.1);
-            border: 1px solid var(--warning);
-            color: var(--warning);
-            padding: 1.5rem;
-            margin: 2rem;
-            border-radius: 8px;
-            max-width: 800px;
-            margin: 2rem auto;
-        }
-
         footer {
             background: #0f172a;
             padding: 2rem;
             text-align: center;
             margin-top: 4rem;
-        }
-
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2rem;
-            }
         }
     </style>
 </head>
@@ -150,47 +108,41 @@
 
     <div class="platforms">
         <div class="platform-card">
-            <h3>🎁 Free Trial</h3>
-            <p>30 Days Full Access to Jellyfin</p>
-            <a href="https://discord.gg/6u6CMQQwN8" class="cta-btn">Register via Discord</a>
-            <p>Existing member? <a href="http://85.226.233.71:8096/">Login here</a></p>
+            <h3>🎁 30 Days Free Trial - Jellyfin</h3>
+            <p>✔ 30 days free access to our Jellyfin platform</p>
+            <p>✔ Account automatically deactivates after trial period</p>
+            <p>✔ Perfect way to try our service</p>
+            <a href="http://85.226.233.71:8056/invite/VvHBUfoFYFp6eJpc3ReW87" class="cta-btn">Register here</a>
+            <p>Login here after registration: <a href="http://85.226.233.71:8096/">Click here</a></p>
         </div>
 
         <div class="platform-card">
-            <h3>💎 Premium Membership</h3>
-            <p>Full Access to All Platforms</p>
-            <div class="price-card">
-                <h2>$3/month</h2>
-                <ul>
-                    <li>Plex & Jellyfin Access</li>
-                    <li>4K/HDR Streaming</li>
-                    <li>Content Requests via Jellyseerr</li>
-                    <li>Priority Support</li>
-                </ul>
-                <a href="https://discord.gg/6u6CMQQwN8" class="cta-btn">Get Premium Access</a>
-            </div>
+            <h3>💎 Premium Membership - $3/month</h3>
+            <p>✔ Unlimited access to both Jellyfin and Plex servers</p>
+            <p>✔ No time restrictions</p>
+            <p>✔ Content request privilege via Jellyseerr</p>
+            <p>✔ Special Discord channel access</p>
+            <a href="https://discord.gg/6u6CMQQwN8" class="cta-btn">Get Premium Access</a>
         </div>
     </div>
 
-    <section class="features">
-        <div class="feature-item">
-            <h3>🎥 4K Streaming</h3>
-            <p>Ultra HD Quality with HDR Support</p>
-        </div>
-        <div class="feature-item">
-            <h3>📺 Live TV</h3>
-            <p>Sports, News & Entertainment</p>
-        </div>
-        <div class="feature-item">
-            <h3>🔐 Secure Access</h3>
-            <p>2FA & VPN Support</p>
+    <section class="platforms">
+        <div class="platform-card">
+            <h3>🔗 Manage Your Account</h3>
+            <p>✔ Check when your account expires</p>
+            <p>✔ Change/reset your password</p>
+            <p>✔ Update your email address</p>
+            <a href="http://85.226.233.71:8056" class="cta-btn">Manage Account</a>
         </div>
     </section>
 
-    <div class="warning">
-        <h3>⚠️ Important Notice</h3>
-        <p>For best experience, we recommend using Jellyfin as primary platform. Plex service might experience occasional downtime.</p>
-    </div>
+    <section class="platforms">
+        <div class="platform-card">
+            <h3>❤️ Support Us</h3>
+            <p>Enjoying our service? Help us keep it running!</p>
+            <a href="https://buymeacoffee.com/plexloungeserver" class="cta-btn">Support Us</a>
+        </div>
+    </section>
 
     <footer>
         <p>© 2024 MediaLounge · <a href="https://discord.gg/6u6CMQQwN8">Support & Community</a></p>
