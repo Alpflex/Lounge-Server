@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LoungeServer - Premium Streaming Service</title>
+    <title>LoungeServer - Stream the Newest Movies & TV Shows</title>
     <style>
         :root {
             --primary: #0f172a;
@@ -87,6 +87,23 @@
             box-shadow: 0 0 15px var(--accent);
         }
 
+        .comparison-table {
+            width: 100%;
+            max-width: 800px;
+            margin: 2rem auto;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        .comparison-table th, .comparison-table td {
+            padding: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .comparison-table th {
+            background: var(--accent);
+        }
+
         footer {
             background: #0f172a;
             padding: 2rem;
@@ -101,29 +118,42 @@
     </nav>
 
     <section class="hero">
-        <h1>Premium Streaming Experience</h1>
-        <p>5,000+ Movies · 300+ TV Shows · 50+ Live Channels</p>
+        <h1>Stream the Newest Movies & TV Shows</h1>
+        <p>500+ Movies · 300+ TV Shows · 50+ Live Channels</p>
         <a href="https://discord.gg/6u6CMQQwN8" class="cta-btn">Join Our Discord</a>
     </section>
 
-    <div class="platforms">
-        <div class="platform-card">
-            <h3>🎁 30 Days Free Trial - Jellyfin</h3>
-            <p>✔ 30 days free access to our Jellyfin platform</p>
-            <p>✔ Account automatically deactivates after trial period</p>
-            <p>✔ Perfect way to try our service</p>
-            <a href="https://discord.gg/6u6CMQQwN8" class="cta-btn">Register here</a>
-        </div>
-
-        <div class="platform-card">
-            <h3>💎 Premium Membership - $3/month</h3>
-            <p>✔ Unlimited access to both Jellyfin and Plex servers</p>
-            <p>✔ No time restrictions</p>
-            <p>✔ Content request privilege via Jellyseerr</p>
-            <p>✔ Special Discord channel access</p>
-            <a href="https://discord.gg/6u6CMQQwN8" class="cta-btn">Get Premium Access</a>
-        </div>
-    </div>
+    <table class="comparison-table">
+        <thead>
+            <tr>
+                <th>Feature</th>
+                <th>Free Trial</th>
+                <th>Premium ($3/month)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Jellyfin Access</td>
+                <td>30 Days</td>
+                <td>Unlimited</td>
+            </tr>
+            <tr>
+                <td>Plex Access</td>
+                <td>❌</td>
+                <td>✅</td>
+            </tr>
+            <tr>
+                <td>Content Request (Jellyseerr)</td>
+                <td>❌</td>
+                <td>✅</td>
+            </tr>
+            <tr>
+                <td>Discord Premium Role</td>
+                <td>❌</td>
+                <td>✅</td>
+            </tr>
+        </tbody>
+    </table>
 
     <section class="platforms">
         <div class="platform-card">
