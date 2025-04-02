@@ -1,200 +1,366 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LoungeServer - Stream the Newest Movies & TV Shows</title>
-    <style>
-        :root {
-            --primary: #0f172a;
-            --accent: #5865F2;
-            --text: #f8fafc;
-            --warning: #ffd700;
-        }
+import React, { useState, useEffect } from 'react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { cn } from '@/lib/utils';
+import { motion, AnimatePresence } from 'framer-motion';
+import {
+    Tv,
+    Users,
+    Search,
+    MessageCircle,
+    ArrowRight,
+    Server,
+    Film,
+    BookOpen,
+    Gamepad2,
+    Zap,
+    LayoutDashboard,
+    ChevronRight,
+    Sparkles,
+    ShieldCheck,
+    Globe,
+    Settings,
+    User,
+} from 'lucide-react';
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', sans-serif;
-        }
+// Constants for colors and styles (Clean User-Friendly Theme)
+const theme = {
+    primary: 'hsl(220, 85%, 55%)',       // Blue
+    primaryLight: 'hsl(220, 75%, 65%)',
+    secondary: 'hsl(160, 90%, 40%)',     // Green
+    secondaryLight: 'hsl(160, 80%, 50%)',
+    background: 'hsl(0, 0%, 100%)',       // White
+    card: 'hsl(0, 0%, 98%)',           // Very light gray
+    text: 'hsl(0, 0%, 30%)',            // Dark gray
+    textSecondary: 'hsl(0, 0%, 60%)',    // Medium gray
+    accent: 'hsl(350, 90%, 60%)',       // Red
+    muted: 'hsl(0, 0%, 95%)',
+    border: 'hsl(0, 0%, 90%)',
+};
 
-        body {
-            background: var(--primary);
-            color: var(--text);
-            line-height: 1.6;
-        }
+// Animation variants (Clean User-Friendly animations)
+const cardVariants = {
+    hidden: { opacity: 0, y: 15 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: 'easeInOut' } },
+    hover: {
+        scale: 1.03,
+        boxShadow: `0px 5px 12px rgba(0, 0, 0, 0.15)`,
+        transition: { duration: 0.2, ease: 'easeInOut' },
+        backgroundColor: 'hsl(0, 0%, 99%)',
+    },
+};
 
-        .nav {
-            padding: 1rem;
-            background: rgba(15, 23, 42, 0.8);
-            backdrop-filter: blur(10px);
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-        }
+const buttonVariants = {
+    hover: {
+        scale: 1.06,
+        backgroundColor: theme.primaryLight,
+        transition: { duration: 0.25, ease: 'easeInOut' },
+    },
+    tap: { scale: 0.98 },
+};
 
-        .hero {
-            padding: 8rem 2rem 4rem;
-            text-align: center;
-            background: linear-gradient(45deg, #0f172a, #1e293b);
-        }
-
-        .hero h1 {
-            font-size: 2.8rem;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(45deg, #5865F2, #00ccff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .platforms {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            padding: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .platform-card {
-            background: #1e293b;
-            border-radius: 12px;
-            padding: 2rem;
-            border: 1px solid rgba(255,255,255,0.1);
-            transition: transform 0.3s;
-        }
-
-        .platform-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .cta-btn {
-            display: inline-block;
-            background: var(--accent);
-            color: white;
-            padding: 1rem 2rem;
-            margin: 1rem 0;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: 0.3s;
-        }
-
-        .cta-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 15px var(--accent);
-        }
-
-        .comparison-table {
-            width: 100%;
-            max-width: 800px;
-            margin: 2rem auto;
-            border-collapse: collapse;
-            text-align: left;
-        }
-
-        .comparison-table th, .comparison-table td {
-            padding: 1rem;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .comparison-table th {
-            background: var(--accent);
-        }
-
-        footer {
-            background: #0f172a;
-            padding: 2rem;
-            text-align: center;
-            margin-top: 4rem;
-        }
-    </style>
-</head>
-<body>
-    <nav class="nav">
-        <h2>LoungeServer 🎬</h2>
-    </nav>
-
-    <section class="hero">
-        <h1>Stream the Newest Movies & TV Shows</h1>
-        <p>700+ Movies · 400+ TV Shows · 50+ Live Channels</p>
-        <a href="https://discord.gg/6u6CMQQwN8" class="cta-btn">Join Our Discord</a>
-    </section>
-
-    <table class="comparison-table">
-        <thead>
-            <tr>
-                <th>Feature</th>
-                <th>Free Trial</th>
-                <th>Premium ($3/month)</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Jellyfin Access</td>
-                <td>30 Days</td>
-                <td>Unlimited</td>
-            </tr>
-            <tr>
-                <td>Plex Access</td>
-                <td>❌</td>
-                <td>✅</td>
-            </tr>
-            <tr>
-                <td>Content Request (Jellyseerr)</td>
-                <td>❌</td>
-                <td>✅</td>
-            </tr>
-            <tr>
-                <td>Discord Premium Role</td>
-                <td>❌</td>
-                <td>✅</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <section class="platforms">
-        <div class="platform-card">
-            <h3>🔗 Manage Your Account</h3>
-            <p>✔ Check when your account expires</p>
-            <p>✔ Change/reset your password</p>
-            <p>✔ Update your email address</p>
-            <a href="https://discord.gg/6u6CMQQwN8" class="cta-btn">Manage Account</a>
+// Reusable Section Component
+const Section = ({ title, description, children, className }: { title: string, description: string, children: React.ReactNode, className?: string }) => (
+    <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: 'easeOut' }}
+        className={cn("py-12 md:py-16", className)}
+    >
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-10 md:mb-14">
+                <h2
+                    className="text-3xl sm:text-4xl md:text-5xl font-semibold text-black mb-4 tracking-tight"
+                    style={{ color: theme.primary }}
+                >
+                    {title}
+                </h2>
+                <p
+                    className="text-gray-600 max-w-4xl mx-auto text-lg sm:text-xl leading-relaxed"
+                    style={{ color: theme.textSecondary }}
+                >
+                    {description}
+                </p>
+            </div>
+            {children}
         </div>
-    </section>
+    </motion.div>
+);
 
-    <section class="platforms">
-        <div class="platform-card">
-            <h3>🎬 Jellyseerr - Request Movies & Shows</h3>
-            <p>✔ Easily request new movies or series</p>
-            <p>✔ Get notifications when content is available</p>
-            <p>✔ Integrated with LoungeServer</p>
-            <a href="https://discord.gg/6u6CMQQwN8" class="cta-btn">Access Jellyseerr</a>
+// Service Card Component
+const ServiceCard = ({ title, description, link, icon: Icon, tags }: { title: string, description: string, link: string, icon: React.FC<React.SVGProps<SVGSVGElement>>, tags?: string[] }) => {
+    const [isHovered, setIsHovered] = useState(false);
+
+    return (
+        <motion.div
+            variants={cardVariants}
+            initial="hidden"
+            animate="visible"
+            whileHover="hover"
+            className="overflow-hidden"
+        >
+            <Card
+                className={cn(
+                    "bg-white",
+                    "border border-gray-200 shadow-md rounded-xl",
+                    "transition-all duration-300",
+                    "overflow-hidden",
+                    "relative group",
+                    "hover:border-blue-400/50"
+                )}
+                style={{
+                    backgroundColor: theme.card,
+                }}
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
+            >
+                <AnimatePresence>
+                    {isHovered && (
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 0.1 }}
+                            exit={{ opacity: 0 }}
+                            className="absolute inset-0 bg-gradient-to-br from-transparent to-blue-100/50 transition-opacity duration-300"
+                        />
+                    )}
+                </AnimatePresence>
+                <CardHeader>
+                    <CardTitle className="flex items-center gap-3 text-black text-xl font-semibold" style={{ color: theme.primary }}>
+                        <Icon className="w-6 h-6" style={{ color: theme.primary }} />
+                        {title}
+                    </CardTitle>
+                    <CardDescription className="text-gray-600 text-base" style={{ color: theme.textSecondary }}>
+                        {description}
+                    </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                    {tags && (
+                        <div className="flex flex-wrap gap-2">
+                            {tags.map((tag, index) => (
+                                <Badge
+                                    key={index}
+                                    variant="secondary"
+                                    className="bg-blue-100/50 text-blue-600 border-blue-200/50 text-sm"
+                                >
+                                    {tag}
+                                </Badge>
+                            ))}
+                        </div>
+                    )}
+                    <motion.div whileTap={buttonVariants.tap}>
+                        <Button
+                            asChild
+                            className={cn(
+                                "w-full bg-white text-blue-600",
+                                "font-semibold py-2.5 text-lg",
+                                "transition-all duration-200",
+                                "border border-blue-200/50",
+                                "hover:bg-blue-100/80",
+                                "relative overflow-hidden group",
+                            )}
+                            style={{
+                                backgroundColor: 'white',
+                                color: theme.primary,
+                                borderColor: theme.primaryLight,
+                            }}
+                        >
+                            <a
+                                href={link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="w-full flex items-center justify-center gap-2"
+                            >
+                                Go to {title}
+                                <ChevronRight className="ml-2 w-5 h-5" />
+                            </a>
+                        </Button>
+                    </motion.div>
+                </CardContent>
+            </Card>
+        </motion.div>
+    );
+};
+
+const LoungeserverWebsite = () => {
+    const [isDarkMode, setIsDarkMode] = useState(false);
+
+    const toggleDarkMode = () => {
+        setIsDarkMode(prev => !prev);
+    };
+
+    useEffect(() => {
+        document.body.style.backgroundColor = isDarkMode ? '#111827' : theme.background;
+        document.body.style.color = isDarkMode ? '#f9fafb' : theme.text;
+    }, [isDarkMode]);
+
+
+    return (
+        <div
+            className={cn(
+                "min-h-screen",
+                isDarkMode ? "bg-gray-900 text-white" : "bg-white text-black",
+            )}
+            style={{
+                fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
+                color: isDarkMode ? '#f9fafb' : theme.text,
+            }}
+        >
+            {/* Main Section */}
+            <Section
+                title="Loungeserver"
+                description="Your user-friendly hub for the latest movies, TV shows, and a friendly community. We offer a curated collection of services to stream your favorite media and connect with fellow enthusiasts."
+                className="pt-20 md:pt-24"
+            >
+                <div className="flex flex-col sm:flex-row justify-center gap-6 mt-8">
+                    <motion.div whileHover={buttonVariants.hover} whileTap={buttonVariants.tap}>
+                        <Button
+                            asChild
+                            className={cn(
+                                "bg-blue-500 text-white",
+                                "font-semibold px-6 py-2.5 text-lg",
+                                "transition-all duration-200",
+                                "shadow-md",
+                                "flex items-center gap-3",
+                                "rounded-full"
+                            )}
+                            style={{ backgroundColor: theme.primary }}
+                        >
+                            <a href="https://discord.gg/6u6CMQQwN8" target="_blank" rel="noopener noreferrer">
+                                Join our Discord <MessageCircle className="w-5 h-5" />
+                            </a>
+                        </Button>
+                    </motion.div>
+                    <motion.div whileHover={buttonVariants.hover} whileTap={buttonVariants.tap}>
+                        <Button
+                            asChild
+                            className={cn(
+                                "bg-white/90 text-gray-700 border border-gray-200",
+                                "px-6 py-2.5 text-lg font-semibold",
+                                "transition-all duration-200",
+                                "hover:bg-gray-100",
+                                "flex items-center gap-3 shadow-sm",
+                                "rounded-full"
+                            )}
+                            style={{
+                                backgroundColor: 'white',
+                                color: theme.text,
+                                borderColor: theme.border,
+                            }}
+                        >
+                            <a href="#services" className="flex items-center gap-2">
+                                Explore Services <ArrowRight className="w-5 h-5" />
+                            </a>
+                        </Button>
+                    </motion.div>
+                </div>
+                <div className="mt-16 text-center">
+                    <Zap className="w-10 h-10 mx-auto mb-4 text-yellow-400 animate-pulse" />
+                    <p
+                        className="text-gray-500 text-lg sm:text-xl leading-relaxed"
+                        style={{ color: theme.textSecondary }}
+                    >
+                        Get the best media experience.
+                    </p>
+                </div>
+            </Section>
+
+            {/* Services Section */}
+            <Section
+                title="Our Services"
+                description="We offer a range of services to cater to your media and community needs."
+                className="bg-gray-50"
+            >
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <ServiceCard
+                        title="Jellyfin"
+                        description="A free, open-source media server. Stream your movies and TV shows."
+                        link="https://discord.gg/6u6CMQQwN8"
+                        icon={Tv}
+                        tags={["Media Server", "Streaming", "Open Source"]}
+                    />
+                    <ServiceCard
+                        title="Plex"
+                        description="A powerful media server to organize and stream your media."
+                        link="https://discord.gg/6u6CMQQwN8"
+                        icon={Film}
+                        tags={["Media Server", "Streaming"]}
+                    />
+                    <ServiceCard
+                        title="Jellyseerr"
+                        description="A request management tool for Jellyfin and Plex. Allows users to request movies and shows."
+                        link="https://discord.gg/6u6CMQQwN8"
+                        icon={Search}
+                        tags={["Media Request", "Automation", "Community"]}
+                    />
+                    <ServiceCard
+                        title="Discord Community"
+                        description="Join our vibrant Discord community to discuss media, get support, and make new friends."
+                        link="https://discord.gg/6u6CMQQwN8"
+                        icon={MessageCircle}
+                        tags={["Community", "Chat", "Support"]}
+                    />
+                </div>
+            </Section>
+
+            {/* About Us Section */}
+            <Section
+                title="About Us"
+                description="Loungeserver started as a hobby project to gather a group of friends and their media in one place. Since then, we've grown into a community of like-minded individuals who love to share and enjoy the latest movies, and shows together."
+                className=""
+            >
+                <Card
+                    className={cn(
+                        "bg-white",
+                        "border border-gray-200 shadow-md rounded-xl"
+                    )}
+                    style={{ backgroundColor: theme.card }}
+                >
+                    <CardHeader>
+                        <CardTitle className="text-2xl font-semibold text-black flex items-center gap-2" style={{ color: theme.primary }}>
+                            <LayoutDashboard className="w-6 h-6" />
+                            Our Vision
+                        </CardTitle>
+                        <CardDescription className="text-gray-600 text-lg" style={{ color: theme.textSecondary }}>
+                            To create an inclusive and accessible platform for everyone to enjoy their favorite media.
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                        <p className="text-gray-700 text-lg leading-relaxed" style={{ color: theme.text }}>
+                            We strive to provide a seamless experience for both users and content creators. Our goal is to build a strong community where everyone feels welcome.
+                        </p>
+                        <ul className="list-disc list-inside space-y-2">
+                            <li className="text-gray-700 text-lg" style={{ color: theme.text }}>
+                                <span className="font-semibold" style={{ color: theme.primary }}>User-Friendly Design:</span> Simple and intuitive design.
+                            </li>
+                            <li className="text-gray-700 text-lg" style={{ color: theme.text }}>
+                                <span className="font-semibold" style={{ color: theme.primary }}>Community:</span> A place for all media lovers.
+                            </li>
+                            <li className="text-gray-700 text-lg" style={{ color: theme.text }}>
+                                <span className="font-semibold" style={{ color: theme.primary }}>Accessibility:</span> Open and available to everyone.
+                            </li>
+                        </ul>
+                    </CardContent>
+                </Card>
+            </Section>
+
+            {/* Footer */}
+            <footer className="py-12 border-t border-gray-200 mt-16" style={{ borderColor: theme.border }}>
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
+                    <p className="text-gray-600 text-lg" style={{ color: theme.textSecondary }}>
+                        &copy; {new Date().getFullYear()} Loungeserver. All rights reserved.
+                    </p>
+                    <p className="mt-4 text-gray-600 text-sm" style={{color: theme.textSecondary}}>
+                        Built with Open Source
+                    </p>
+                    <div className="mt-6 flex justify-center gap-4">
+                        {/* Social icons or links can be added here */}
+                    </div>
+                </div>
+            </footer>
         </div>
-    </section>
+    );
+};
 
-    <section class="platforms">
-        <div class="platform-card">
-            <h3>❤️ Support Us</h3>
-            <p>Enjoying our service? Help us keep it running!</p>
-            <a href="https://discord.gg/6u6CMQQwN8" class="cta-btn">Support Us</a>
-        </div>
-    </section>
+export default LoungeserverWebsite;
 
-
-    <section class="platforms">
-        <div class="platform-card">
-            <h3>❤️ Support Us</h3>
-            <p>Enjoying our service? Help us keep it running!</p>
-            <a href="https://www.buymeacoffee.com/PlexLoungeServer"><img src="https://img.buymeacoffee.com/button-api/?text=Support us&amp;emoji=☕&amp;slug=PlexLoungeServer&amp;button_colour=5F7FFF&amp;font_colour=ffffff&amp;font_family=Cookie&amp;outline_colour=000000&amp;coffee_colour=FFDD00"></a>
-        </div>
-    </section>
-
-
-    <footer>
-        <p>© 2024 LoungeServer · <a href="https://discord.gg/6u6CMQQwN8">Support & Community</a></p>
-    </footer>
-</body>
-</html>
